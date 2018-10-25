@@ -11,7 +11,11 @@ var userChoise = process.argv[3];
 
 switch(userCommand){
     case 'movie-this':
-        movie();
+        if(userChoise){
+            movie(userChoise);
+        }else{
+            movie('Mr. Nobody');
+        }
         break;
     case 'consert-this':
         consert();
@@ -32,10 +36,11 @@ function movie(){
     console.log( JSON.parse(body).Title);
     console.log( JSON.parse(body).Year);
     console.log( JSON.parse(body).imdbRating);
-    console.log( JSON.parse(body).Ratings[1].Source);
+    //console.log( JSON.parse(body).Ratings[1].Source);
     console.log( JSON.parse(body).Country);
     console.log( JSON.parse(body).Language);
     console.log( JSON.parse(body).Plot);
     console.log( JSON.parse(body).Actors);
     });
+
 }
