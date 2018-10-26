@@ -1,13 +1,13 @@
 var env = require("dotenv").config();
 var fs = require('fs');
 var moment = require('moment');
-var keysFile = require('./keys');
+var keys = require('./keys.js');
 var Spotify = require('node-spotify-api');
 var request =  require('request');
 var proc = process.argv;
 var userCommand = process.argv[2];
 var userChoise = process.argv.splice(3).join(' ');
-//var spotify = new Spotify(Keys.spotify);
+var spotify = new Spotify(keys.spotify);
 
 switch(userCommand){
     case 'movie-this':
@@ -51,7 +51,7 @@ function consert(){
     request("https://rest.bandsintown.com/artists/" + userChoise + "/events?app_id=codingbootcamp", function(err,response, body){
         if(!err && response.statusCode ===200){
             console.log(response.statusCode);
-            console.log(JSON.parse(body));
+            //console.log(JSON.parse(body));
             
             for (var i = 0; i < JSON.parse(body).length; i++){
                 console.log('Band: ' + JSON.parse(body)[i].lineup[0]);
@@ -63,4 +63,19 @@ function consert(){
             
         }
     });
+}
+
+function spot(){
+    spotify.search({ type: 'track', query: userChoise, limit: 1 }, function(err, data) {
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+       var songData = data.tracks.items;
+        //console.log(songData);
+      console.log("Artist: " + songData[0].artists[0].name); 
+      console.log("Song Name: " + songData[0].name); 
+      console.log("Link: " + songData[0].album.external_urls.spotify); 
+      console.log("Album: " + songData[0].album.name); 
+
+      });
 }
