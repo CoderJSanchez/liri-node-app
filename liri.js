@@ -8,6 +8,8 @@ var proc = process.argv;
 var userCommand = process.argv[2];
 var userChoise = process.argv.splice(3).join(' ');
 var spotify = new Spotify(keys.spotify); 
+var doItArray = [];
+
 
 
 switch(userCommand){
@@ -32,6 +34,10 @@ switch(userCommand){
     default:
     console.log("Please use a valid command: spotify-this-song or movie-this or concert-this")
 }
+
+
+
+
 
 function movie(){
     if ( !userChoise ){
@@ -101,8 +107,10 @@ function doIt(){
         }else{
             var dataArray = data.split(',');
             console.log(dataArray);
-            userCommand = dataArray[0];
-            userChoise = dataArray[1];
+            spot(dataArray[0], dataArray[1]);
+            
         }
     });
 }
+
+
