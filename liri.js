@@ -8,7 +8,7 @@ var proc = process.argv;
 var userCommand = process.argv[2];
 var userChoise = process.argv.splice(3).join(' ');
 var spotify = new Spotify(keys.spotify); 
-var aceOfBase = "The Sign";
+
 
 switch(userCommand){
     case 'movie-this':
@@ -29,7 +29,10 @@ switch(userCommand){
     case 'do-what-it-says':
         doIt();
         break;
+    default:
+    console.log("Please use a valid command: spotify-this-song or movie-this or concert-this")
 }
+
 function movie(){
     if ( !userChoise ){
         userChoise = 'Mr Nobody';
@@ -89,4 +92,17 @@ function spot(){
       console.log("Album: " + songData[0].album.name); 
 
       });
+}
+
+function doIt(){
+    fs.readFile('random.txt', "utf8", function(err, data){
+        if(err){
+            console.log("Error: " + err);
+        }else{
+            var dataArray = data.split(',');
+            console.log(dataArray);
+            userCommand = dataArray[0];
+            userChoise = dataArray[1];
+        }
+    });
 }
