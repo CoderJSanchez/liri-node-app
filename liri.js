@@ -7,7 +7,8 @@ var request =  require('request');
 var proc = process.argv;
 var userCommand = process.argv[2];
 var userChoise = process.argv.splice(3).join(' ');
-var spotify = new Spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify); 
+var aceOfBase = "The Sign";
 
 switch(userCommand){
     case 'movie-this':
@@ -17,17 +18,22 @@ switch(userCommand){
             movie('Mr. Nobody');
         }
         break;
-    case 'consert-this':
+    case 'consert-this':{
         consert();
         break;
+    }
     case 'spotify-this-song':
         spot();
         break;
+
     case 'do-what-it-says':
         doIt();
         break;
 }
 function movie(){
+    if ( !userChoise ){
+        userChoise = 'Mr Nobody';
+    }
 
     request('http://www.omdbapi.com/?t=' + userChoise + '&apikey=6f1be632', function(err, response, body){
     console.log('***************************************');
@@ -51,7 +57,7 @@ function consert(){
     request("https://rest.bandsintown.com/artists/" + userChoise + "/events?app_id=codingbootcamp", function(err,response, body){
         if(!err && response.statusCode ===200){
             console.log(response.statusCode);
-            //console.log(JSON.parse(body));
+            console.log(JSON.parse(body));
             
             for (var i = 0; i < JSON.parse(body).length; i++){
                 console.log('Band: ' + JSON.parse(body)[i].lineup[0]);
@@ -59,6 +65,7 @@ function consert(){
                 console.log('City: ' + JSON.parse(body)[i].venue.city);
                 console.log('Date: ' + JSON.parse(body)[i].datetime);
                 console.log('__________________________________________')
+                //console.log(JSON.parse(body)[i].moment(datetime).format('dddd'));
             }
             
         }
@@ -66,6 +73,10 @@ function consert(){
 }
 
 function spot(){
+    if(!userChoise){
+        userChoise = 'Ace Of Base';
+    }
+    
     spotify.search({ type: 'track', query: userChoise, limit: 1 }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
