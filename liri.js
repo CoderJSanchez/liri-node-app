@@ -8,7 +8,6 @@ var proc = process.argv;
 var userCommand = process.argv[2];
 var userChoise = process.argv.splice(3).join(' ');
 var spotify = new Spotify(keys.spotify); 
-var doItArray = [];
 
 
 
@@ -68,11 +67,15 @@ function consert(){
             console.log(response.statusCode);
             console.log(JSON.parse(body));
             
+            
             for (var i = 0; i < JSON.parse(body).length; i++){
+                var date = JSON.parse(body)[i].datetime;
+
                 console.log('Band: ' + JSON.parse(body)[i].lineup[0]);
                 console.log('Venue: ' + JSON.parse(body)[i].venue.name);
                 console.log('City: ' + JSON.parse(body)[i].venue.city);
-                console.log('Date: ' + JSON.parse(body)[i].datetime);
+                
+                console.log('Date: ' + moment(date).format('MM/DD/YYYY') );
                 console.log('__________________________________________')
                 //console.log(JSON.parse(body)[i].moment(datetime).format('dddd'));
             }
